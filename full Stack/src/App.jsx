@@ -7,6 +7,8 @@ import SingIn from './Pages/SingIn';
 import SingnUp from './Pages/SingnUp';
 import Header from './Component/Header';
 import Footer from './Component/Footer';
+import Write from './Pages/Write';
+import MyArticle from './Pages/MyArticle';
 const App = () => {
   return (
     <div>
@@ -20,6 +22,8 @@ const App = () => {
          <Route path='/article/:id ' element={<Article />} />
          <Route path='/singin' element={<SingIn />} />
          <Route path='/signup' element={<SingnUp />} />
+         <Route path='/write' element={<Write />} />
+         <Route path='/myArticles' element={<MyArticle />} />
         </Routes>
       </main>
       {/* footer */}
