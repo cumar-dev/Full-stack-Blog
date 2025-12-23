@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
+import { CiMenuBurger } from "react-icons/ci";
+import { IoCloseOutline } from "react-icons/io5";
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isMenueOpen, setIsMenueOpen] = useState(false);
@@ -86,15 +88,31 @@ const Header = () => {
                 <span>Hello omar</span>
               </div>
               <div className="relative">
-                <button className='flex items-center justify-center h-8 w-8 rounded-full bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500'>
+                <button onClick={() => setIsDropdownOpen(prev => !prev)} className='flex items-center justify-center h-8 w-8 
+                rounded-full bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2
+                 focus:ring-amber-500'
+                 
+                 >
                   {
                     avatar_Url ? (
                       <img className="w-8 h-8 rounded-full" src={avatar_Url} alt="" />
                     ):(
-                     <FaUser className="text-orange-600 cursor-pointer" />
+                     <FaUser className="text-gray-600 cursor-pointer" />
                     )
                   }
                 </button>
+                {/* drodownMenue */}
+                {
+                  isDropdownOpen && (
+                  <div className="absolute right-0 w-48 bg-white mt-1 rounded-md shadow-lg z-10">
+                  
+                  <Link className="block px-4 py-2 text-gray-700 text-sm hover:bg-gray-100">Your Profile</Link>
+                  <Link className="block px-4 py-2 text-gray-700 text-sm hover:bg-gray-100">Manage Aricles</Link>
+                  <Link className="block px-4 py-2 text-gray-700 text-sm hover:bg-gray-100">SingnOut</Link>
+                </div>   
+                  )
+                }
+               
               </div>
               </>
             ) : (
@@ -102,14 +120,18 @@ const Header = () => {
                 <div className="flex items-cemter gap-2">
                   <NavLink
                     to="/singin"
-                    className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                    className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium 
+                    rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                    focus:ring-orange-500"
                   >
                     Sign In
                   </NavLink>
 
                   <NavLink
                     to="/signup"
-                    className="hidden sm:inline-flex items-center justify-center px-4 py-2 border text-sm font-medium rounded-md text-orange-600 bg-white border-orange-600 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                    className="hidden sm:inline-flex items-center justify-center px-4 py-2 border text-sm font-medium rounded-md 
+                    text-orange-600 bg-white border-orange-600 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                    focus:ring-orange-500"
                   >
                     Sign Up
                   </NavLink>
@@ -117,10 +139,128 @@ const Header = () => {
               </>
             )}
 
+            {
+              !isLoggedIn && (
+                <>
+                <NavLink
+                    to="/singin"
+                    className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium 
+                    rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                    focus:ring-orange-500"
+                  >
+                    Sign In
+                  </NavLink>
+
+                  <NavLink
+                    to="/signup"
+                    className="hidden sm:inline-flex items-center justify-center px-4 py-2 border text-sm font-medium rounded-md 
+                    text-orange-600 bg-white border-orange-600 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                    focus:ring-orange-500"
+                  >
+                    Sign Up
+                  </NavLink>
+                  </>
+              )
+            }
+
             {/* buttons */}
           </div>
+
+        {/* hamburger */}
+        <div className="mr-2 flex items-center sm:hidden">
+          <button onClick={()=> setIsMenueOpen(prev => !prev)} cclassName="inline-flex size={24} items-center justify-center p-2 rounded-md text-gray-400hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500">
+            {
+              isMenueOpen ? <IoCloseOutline className="w-6 h-6 block" /> : <CiMenuBurger className="w-6 h-6 block" />
+            }
+          </button>
+       
+        </div>
+        
         </div>
       </div>
+      {/* mobile menue */}
+      {
+        isMenueOpen && (
+              <div className="sm:hidden">
+  <div className="mt-2 space-y-1 rounded-lg bg-white shadow-md ring-1 ring-black/5">
+
+    <NavLink
+      to="/"
+      className={({ isActive }) =>
+        `block px-4 py-3 text-sm font-medium rounded-md border-l-4 border-orange-500 text-base font-meddium
+        ${
+          isActive
+            ? "bg-orange-50 text-orange-600"
+            : "text-gray-700 hover:bg-gray-100"
+        }`
+      }
+    >
+      Home
+    </NavLink>
+
+    <NavLink
+      to="/articles"
+      className={({ isActive }) =>
+        `block px-4 py-3 text-sm font-medium rounded-md border-l-4 border-orange-500 text-base font-meddium
+        ${
+          isActive
+            ? "bg-orange-50 text-orange-600"
+            : "text-gray-700 hover:bg-gray-100"
+        }`
+      }
+    >
+      Articles
+    </NavLink>
+
+    <NavLink
+      to="/write"
+      className={({ isActive }) =>
+        `block px-4 py-3 text-sm font-medium rounded-md border-l-4 border-orange-500 text-base font-meddium
+        ${
+          isActive
+            ? "bg-orange-50 text-orange-600"
+            : "text-gray-700 hover:bg-gray-100"
+        }`
+      }
+    >
+      Write
+    </NavLink>
+
+    <NavLink
+      to="/myArticles"
+      className={({ isActive }) =>
+        `block px-4 py-3 text-sm font-medium rounded-md border-l-4 border-orange-500 text-base font-meddium
+        ${
+          isActive
+            ? "bg-orange-50 text-orange-600"
+            : "text-gray-700 hover:bg-gray-100"
+        }`
+      }
+    >
+      My Articles
+    </NavLink>
+
+   <NavLink
+      to="/profile"
+      className={({ isActive }) =>
+        `block px-4 py-3 text-sm font-medium rounded-md border-l-4 border-orange-500 text-base font-meddium
+        ${
+          isActive
+            ? "bg-orange-50 text-orange-600"
+            : "text-gray-700 hover:bg-gray-100"
+        }`
+      }
+    >
+     Profile
+    </NavLink>
+
+    <button className="blog w-full text-left pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium
+    text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 ">Sign Out</button>
+  </div>
+</div>
+        )
+      }
+     
     </header>
   );
 };
