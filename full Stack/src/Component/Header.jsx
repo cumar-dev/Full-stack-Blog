@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { CiMenuBurger } from "react-icons/ci";
 import { IoCloseOutline } from "react-icons/io5";
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenueOpen, setIsMenueOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const avatar_Url = "https://plus.unsplash.com/premium_photo-1664536392896-cd1743f9c02c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D";
@@ -139,7 +139,7 @@ const Header = () => {
               </>
             )}
 
-            {
+            {/* {
               !isLoggedIn && (
                 <>
                 <NavLink
@@ -161,7 +161,7 @@ const Header = () => {
                   </NavLink>
                   </>
               )
-            }
+            } */}
 
             {/* buttons */}
           </div>
