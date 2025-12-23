@@ -168,7 +168,7 @@ const Header = () => {
 
         {/* hamburger */}
         <div className="mr-2 flex items-center sm:hidden">
-          <button onClick={()=> setIsMenueOpen(prev => !prev)} cclassName="inline-flex size={24} items-center justify-center p-2 rounded-md text-gray-400hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500">
+          <button onClick={()=> setIsMenueOpen(prev => !prev)} className="inline-flex size={24} items-center justify-center p-2 rounded-md text-gray-400hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500">
             {
               isMenueOpen ? <IoCloseOutline className="w-6 h-6 block" /> : <CiMenuBurger className="w-6 h-6 block" />
             }
