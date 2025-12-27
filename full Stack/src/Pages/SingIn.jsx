@@ -1,10 +1,27 @@
 import { useState } from 'react';
 import React  from 'react'
-import { Link } from 'react-router-dom';
-const SingIn = () => {
+import { Link, useNavigate } from 'react-router-dom';
+import {singIn} from "../Lib/Auth"
+const SingIn= () => {
   const [email, setEmail] = useState("");
     const [password, setIspassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+     const [error, setError] = useState(null);
+     const navigate = useNavigate();
+    const handleSubmit = async (event)=> {
+       event.preventDefault();
+       setIsLoading(true);
+       setError(null);
+       try {
+        await singIn(email, password);
+        navigate('/');
+       } catch (error) {
+        setError(error.message || "Failed to sign in . Please check your credentials.")
+        console.error(error);
+       }finally {
+        setIsLoading(false);
+       }
+    }
   return (
     <div className='min-h-screen flex justify-center items-center bg-gray px-4'>
      <div className='max-w-md w-full mt-[150px]'>
@@ -14,7 +31,7 @@ const SingIn = () => {
        </div>
        {/* form */}
        <div className='bg-white rounded-lg shadow-md p-8'>
-       <form>
+       <form onSubmit={handleSubmit}>
         <div className='mb-6'>
           <label htmlFor='email' className='block text-gray-700 text-sm font-semibold mb-2'>Email Address</label>
           <input id='email' type="email" value={email}
