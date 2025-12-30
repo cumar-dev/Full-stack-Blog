@@ -7,14 +7,17 @@ import Header from './Component/Header';
 import Footer from './Component/Footer';
 import Write from './Pages/Write';
 import MyArticle from './Pages/MyArticle';
-import { AuthtProvider } from './Context/AuthContext';
+import { AuthProvider } from './Context/AuthContext';
 import { UnAuthenticatedRoute } from './Component/UnAuthanticatedRoute';
 import SingnUp from './Pages/SingnUp';
-import SingIn from './Pages/SingIn'
+import ProfilePage from './Pages/ProfilePage';
+import ManageAricles from './Pages/ManageAricles';
+import { ProtectedRoute } from './Component/ProtectedRoute';
+import SigninPage from './Pages/SigninPage';
 const App = () => {
   return (
     <>
-    <AuthtProvider>
+    <AuthProvider>
     <div>
       {/* header */}
       <Header/>
@@ -26,7 +29,7 @@ const App = () => {
          <Route path='/article/:id ' element={<Article />} />
          <Route path='/signin' element={
          <UnAuthenticatedRoute>
-          <SingIn />
+          <SigninPage />
          </UnAuthenticatedRoute>
          } />
          <Route path='/signup' 
@@ -35,14 +38,46 @@ const App = () => {
         <SingnUp />
        </UnAuthenticatedRoute>
           } />
-         <Route path='/write' element={<Write />} />
-         <Route path='/myArticles' element={<MyArticle />} />
+         <Route path='/editor' 
+         element={
+          <ProtectedRoute>
+             <Write />
+          </ProtectedRoute>
+        
+        } 
+         />
+         <Route path='/editor/:id' element={
+          <ProtectedRoute>
+             <Write />
+          </ProtectedRoute>
+          } 
+          />
+         <Route path='/myArticles' 
+         element={
+         <ProtectedRoute>
+          <MyArticle />
+         </ProtectedRoute>
+         } 
+         />
+         <Route path='/profile' 
+         element={
+         <ProtectedRoute>
+          <ProfilePage />
+         </ProtectedRoute>
+         } />
+         <Route path='/mangeAricles' element=
+         {
+        <ProtectedRoute>
+           <ManageAricles />
+        </ProtectedRoute>
+         } 
+         />
         </Routes>
       </main>
       {/* footer */}
       <Footer />
     </div>
-    </AuthtProvider>
+    </AuthProvider>
     </>
   )
 }

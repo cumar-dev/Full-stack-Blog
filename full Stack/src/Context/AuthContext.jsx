@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { authChange, getUserProfile } from "../Lib/Auth";
+import { authChange, getUserProfile, signOut } from "../Lib/Auth";
 
 export const AuthContext = createContext(null);
 
-export function AuthtProvider({children}) {
+export function AuthProvider({children}) {
 const [user, setUser] = useState(null);
 const [profile, setProfile] = useState(null);
 const [isLoading, setIsLoading] = useState(true);
@@ -15,8 +15,8 @@ const cleanUp = authChange(async (user) => {
     if(user) {
         try {
             const profile = await getUserProfile(user.id);
+            // console.log('profle data get', profile);
             setProfile(profile);
-            
         } catch (error) {
             console.error("error fetching user profile", error)
         }
@@ -29,12 +29,22 @@ const cleanUp = authChange(async (user) => {
  return cleanUp;
 }, [])
 
+const logOut = async () => {
+try {
+    await signOut();
+} catch (error) {
+    console.error('error exist so singout not works...')
+}
+}
+
 const value = {
     user,
     profile,
     isLoading,
-    isLoggedIn: !!user
+    isLoggedIn: !!user,
+    logOut
 }
+// console.log("profile", profile);
 return (
    < AuthContext.Provider value={value}>
     {children}

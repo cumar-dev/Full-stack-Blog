@@ -1,6 +1,7 @@
+import { data } from "react-router-dom";
 import Supabase from "./Supabase";
 
-export async function singUp(email, password, username = "") {
+export async function signUp(email, password, username = "") {
     
 let { data, error } = await Supabase.auth.signUp({
   email: email,
@@ -21,7 +22,7 @@ if(data?.user) {
  .from("users")
  .insert({
     id: data.user.id,
-    username: displayName,
+    user_name: displayName,
     avatar_url: null
  })
  .select()
@@ -29,6 +30,7 @@ if(data?.user) {
 
  if(profileError) {
     console.error("profile creation error", error);
+    
  }else {
     console.log("profile created successfully", profileData);
  }
@@ -36,7 +38,7 @@ if(data?.user) {
  return data;
 }
 
-export async function singIn(email, password) {
+export async function signIn(email, password) {
    
 let { data, error } = await Supabase.auth.signInWithPassword({
   email: email,
@@ -59,24 +61,33 @@ if(data?.user) {
 // reading if exsists allready profile
 
 export async function getUserProfile(userId) {
-const {data: sessionData} = await Supabase.auth.getSession()   
-const {data: userData, error} = await Supabase.from('users')
+const {data: sessionData} = await Supabase.auth.getSession();
+console.log('session data:', sessionData);
+// const userId = sessionData?.user?.id;
+console.log('user id now:', userId);   
+const {data , error} = await Supabase
+.from('users')
 .select("*")
 .eq('id', userId)
 .single()
 
 if(error && error.code === "PGRST116") {
    console.log("no profile found, attempting to create one for users:", userId);
+   // getting email
+    const { data : userData } = await Supabase.auth.getUser();
+    console.log('user data:', userData);
  const email = userData?.user.email;
+ console.log("email now" ,email)
+ console.log("true data", userData)
 const defaultUsername = email ? email.split('@')[0] : `user_${Date.now()}`;
-
+console.log('default username', defaultUsername);
 // creating new profile
 
 const {data: newProfile, error: profileError} = await Supabase
  .from("users")
  .insert({
     id: userId,
-    username: defaultUsername,
+    user_name: defaultUsername,
     avatar_url: null
  })
  .select()
@@ -96,7 +107,7 @@ if(error) {
    console.error("Error fetching profile", error);
 }
 console.log("exsisting profile");
-return sessionData;
+return data;
 }
 
 // AuthChanges or is badalada authka ku dhacaayo
@@ -127,3 +138,11 @@ export function authChange(callback) {
 //   };
 // }
 
+
+// Auth.js
+
+// Auth.js
+export async function signOut() {
+  const { error } = await Supabase.auth.signOut();
+  if (error) throw error;
+}

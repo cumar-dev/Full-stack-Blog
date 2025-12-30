@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { singUp } from '../Lib/Auth';
+import { signUp } from '../Lib/Auth';
 const SingnUp = () => {
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,10 +21,10 @@ const SingnUp = () => {
      }
 
      try {
-       await singUp(email, password, username);
+       await signUp(email, password, username);
        setSuccess(true);
        setTimeout(() => {
-        navigate('/singin');
+        navigate('/signin');
        }, 3000)
      }catch(error) {
       console.error(error);
@@ -119,7 +119,7 @@ const SingnUp = () => {
       < div className="text-center mt-6">
             <p className="text-gray-600 text-sm">
               Already have an account?{' '}
-              <Link to="/singin" className="text-orange-600 hover:text-orange-800 font-semibold">
+              <Link to="/signin" className="text-orange-600 hover:text-orange-800 font-semibold">
                 Sign in
               </Link>
             </p>

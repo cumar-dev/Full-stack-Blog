@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import React  from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import {singIn} from "../Lib/Auth"
-const SingIn= () => {
+import {signIn} from "../Lib/Auth"
+const SigninPage= () => {
   const [email, setEmail] = useState("");
     const [password, setIspassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +13,7 @@ const SingIn= () => {
        setIsLoading(true);
        setError(null);
        try {
-        await singIn(email, password);
+        await signIn(email, password);
         navigate('/');
        } catch (error) {
         setError(error.message || "Failed to sign in . Please check your credentials.")
@@ -31,6 +31,11 @@ const SingIn= () => {
        </div>
        {/* form */}
        <div className='bg-white rounded-lg shadow-md p-8'>
+         {error && (
+            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">
+              {error}
+            </div>
+          )}
        <form onSubmit={handleSubmit}>
         <div className='mb-6'>
           <label htmlFor='email' className='block text-gray-700 text-sm font-semibold mb-2'>Email Address</label>
@@ -75,4 +80,4 @@ const SingIn= () => {
   )
 }
 
-export default SingIn;
+export default SigninPage;
