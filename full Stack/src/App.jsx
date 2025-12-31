@@ -14,6 +14,7 @@ import ProfilePage from './Pages/ProfilePage';
 import ManageAricles from './Pages/ManageAricles';
 import { ProtectedRoute } from './Component/ProtectedRoute';
 import SigninPage from './Pages/SigninPage';
+import  { Toaster } from 'react-hot-toast';
 const App = () => {
   return (
     <>
@@ -77,6 +78,7 @@ const App = () => {
       {/* footer */}
       <Footer />
     </div>
+     <Toaster />
     </AuthProvider>
     </>
   )

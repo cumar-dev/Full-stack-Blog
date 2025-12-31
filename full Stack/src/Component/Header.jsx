@@ -54,8 +54,10 @@ const [isMenueOpen, setIsMenueOpen] = useState(false);
               >
                 Articles
               </NavLink>
-
-              <NavLink
+             {
+              isLoggedIn && (
+                <>
+                   <NavLink
                 to="/editor"
                 className={({ isActive }) =>
                   `inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
@@ -82,6 +84,10 @@ const [isMenueOpen, setIsMenueOpen] = useState(false);
               >
                 My Articles
               </NavLink>
+              </>
+              )
+             }
+             
             </nav>
           </div>
           {/* right */}

@@ -44,7 +44,7 @@ const value = {
     isLoggedIn: !!user,
     logOut
 }
-// console.log("profile", profile);
+console.log('user information', user);
 return (
    < AuthContext.Provider value={value}>
     {children}
