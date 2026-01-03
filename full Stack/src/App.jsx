@@ -5,7 +5,7 @@ import Articles from './Pages/Articles';
 import Article from './Pages/Article';
 import Header from './Component/Header';
 import Footer from './Component/Footer';
-import Write from './Pages/Write';
+// import Write from './Pages/Write';
 import MyArticle from './Pages/MyArticle';
 import { AuthProvider } from './Context/AuthContext';
 import { UnAuthenticatedRoute } from './Component/UnAuthanticatedRoute';
@@ -15,6 +15,7 @@ import ManageAricles from './Pages/ManageAricles';
 import { ProtectedRoute } from './Component/ProtectedRoute';
 import SigninPage from './Pages/SigninPage';
 import  { Toaster } from 'react-hot-toast';
+import AricalPageEditor from './Pages/AricalPageEditor';
 const App = () => {
   return (
     <>
@@ -42,14 +43,14 @@ const App = () => {
          <Route path='/editor' 
          element={
           <ProtectedRoute>
-             <Write />
+           <AricalPageEditor />
           </ProtectedRoute>
         
         } 
          />
          <Route path='/editor/:id' element={
           <ProtectedRoute>
-             <Write />
+             <AricalPageEditor />
           </ProtectedRoute>
           } 
           />
