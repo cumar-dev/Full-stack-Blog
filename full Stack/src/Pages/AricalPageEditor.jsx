@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import React from "react";
 import toast from "react-hot-toast";
 import { FiInfo, FiSave, FiTag, FiX } from "react-icons/fi";
+import QuillEditor from "../Component/QuillEditor";
 
 // Available tags - In a real app, fetch from Supabase
 const AVAILABLE_TAGS = [
@@ -40,11 +41,20 @@ const AricalPageEditor = () => {
 
   // useRef
   const fileInputRef = useRef(null);
-
+  // this ref controls editordata
+  const editorRef = useRef(null);
   // hadoo jiray ka saar hadii kale hadii kale ku dar
   const toggleTag = (tag) => {
-    setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag): [...prev, tag]);
-  }
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
+  // updtaes editor Content data
+
+  const handleContentChange = (value) => {
+    setContent(value);
+  };
   return (
     <>
       <div className="max-w-4xl mx-auto px-4 py-8">
@@ -163,7 +173,7 @@ const AricalPageEditor = () => {
             {selectedTags.map((tag) => (
               <span
                 key={tag}
-                onClick={()=> toggleTag(tag)}
+                onClick={() => toggleTag(tag)}
                 className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 cursor-pointer"
               >
                 {tag}
@@ -188,35 +198,75 @@ const AricalPageEditor = () => {
               </span>
             ))}
           </div>
-           {/* add tag button */}
+          {/* add tag button */}
+
+          <button
+            type="button"
+            className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            onClick={() => setIsTagsMenuOpen(!isTagsMenuOpen)}
+          >
+            <FiTag className="mr-1.5 h-4 w-4" />
+            Add Tags
+          </button>
+
+          {isTagsMenuOpen && (
+            <div className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+              <div className="grid grid-cols-2 gap-2 p-2">
+                {/* inta ku dar toggleTag */}
+                {AVAILABLE_TAGS.map((tag) => (
+                  <div
+                    key={tag}
+                    onClick={() => toggleTag(tag)}
+                    className={`cursor-pointer px-3 py-2 rounded hover:bg-gray-100 ${
+                      selectedTags.includes(tag)
+                        ? "bg-orange-50 text-orange-700"
+                        : ""
+                    }`}
+                  >
+                    {tag}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+        {/* quillEditor */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Content
+          </label>
+          <div className="border border-gray-300 rounded-md overflow-hidden">
+            <QuillEditor
+              ref={editorRef}
+              value={content}
+              onChange={handleContentChange}
+              placeholder="write your article Content..."
+              height="500"
+            />
+          </div>
+        </div>
+
+        {/* buttons */}
+
+      <div className="px-6 py-4 md:px-10 flex justify-end space-x-4">
+                <button
+                   
+
+                    className="px-6 py-3 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                >
+                     Save as Draft
+                </button>
 
                 <button
-                    type="button"
-                    className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-                    onClick={()=> setIsTagsMenuOpen(!isTagsMenuOpen)}
-                    >
-                    <FiTag className="mr-1.5 h-4 w-4" />
-                    Add Tags
+                    
+                    className="px-6 py-3 border border-transparent rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                >
+                    Save and Publish
                 </button>
-                 
-                  {isTagsMenuOpen && (
-                    <div className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                        <div className="grid grid-cols-2 gap-2 p-2">
-                          {/* inta ku dar toggleTag */}
-                            {AVAILABLE_TAGS.map(tag => (
-                                <div
-                                    key={tag}
-                                    onClick={() => toggleTag(tag)}
-                                    className={`cursor-pointer px-3 py-2 rounded hover:bg-gray-100 ${selectedTags.includes(tag) ? 'bg-orange-50 text-orange-700' : ''
-                                        }`}
-                                >
-                                    {tag}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-        </div>
+            </div>
+
+
+      
       </div>
     </>
   );
